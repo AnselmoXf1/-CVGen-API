@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVGen - Gerador de Currículos | BlueVision Tech</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav">
+                <div class="logo">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>CVGen</span>
+                </div>
+                <nav class="nav-menu">
+                    <a href="#home" class="nav-link active">Início</a>
+                    <a href="#templates" class="nav-link">Templates</a>
+                    <a href="#pricing" class="nav-link">Planos</a>
+                    <a href="#dashboard" class="nav-link" id="dashboardLink" style="display: none;">Dashboard</a>
+                </nav>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" id="loginBtn">Entrar</button>
+                    <button class="btn btn-primary" id="registerBtn">Cadastrar</button>
+                    <div class="user-menu" id="userMenu" style="display: none;">
+                        <span id="userName"></span>
+                        <button class="btn btn-outline" id="logoutBtn">Sair</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Crie seu currículo profissional em <span class="highlight">segundos</span></h1>
+                <p>Gere currículos em PDF com templates profissionais. Rápido, fácil e gratuito para começar.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-large" id="createCvBtn">Criar Meu CV</button>
+                    <button class="btn btn-outline btn-large" id="viewTemplatesBtn">Ver Templates</button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="totalCvs">0</span>
+                        <span class="stat-label">CVs Criados</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Templates</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Gratuito</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Templates Section -->
+    <section id="templates" class="templates">
+        <div class="container">
+            <h2>Escolha seu Template</h2>
+            <p>Templates profissionais para destacar suas qualificações</p>
+            <div class="templates-grid" id="templatesGrid">
+                <!-- Templates serão carregados dinamicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2>Planos e Preços</h2>
+            <p>Escolha o plano ideal para suas necessidades</p>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Free</h3>
+                        <div class="price">R$ 0<span>/mês</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 20 CVs por mês</li>
+                        <li><i class="fas fa-check"></i> Templates básicos</li>
+                        <li><i class="fas fa-check"></i> Download em PDF</li>
+                        <li><i class="fas fa-times"></i> Templates premium</li>
+                        <li><i class="fas fa-times"></i> Suporte prioritário</li>
+                    </ul>
+                    <button class="btn btn-outline">Começar Grátis</button>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Mais Popular</div>
+                    <div class="pricing-header">
+                        <h3>Pro</h3>
+                        <div class="price">R$ 29<span>/mês</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 500 CVs por mês</li>
+                        <li><i class="fas fa-check"></i> Todos os templates</li>
+                        <li><i class="fas fa-check"></i> Templates premium</li>
+                        <li><i class="fas fa-check"></i> Suporte prioritário</li>
+                        <li><i class="fas fa-check"></i> API Key</li>
+                    </ul>
+                    <button class="btn btn-primary">Escolher Pro</button>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Enterprise</h3>
+                        <div class="price">R$ 99<span>/mês</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> CVs ilimitados</li>
+                        <li><i class="fas fa-check"></i> Todos os templates</li>
+                        <li><i class="fas fa-check"></i> White-label</li>
+                        <li><i class="fas fa-check"></i> Suporte 24/7</li>
+                        <li><i class="fas fa-check"></i> API completa</li>
+                    </ul>
+                    <button class="btn btn-outline">Contatar Vendas</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="dashboard" style="display: none;">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2>Meu Dashboard</h2>
+                <button class="btn btn-primary" id="newCvBtn">
+                    <i class="fas fa-plus"></i> Novo CV
+                </button>
+            </div>
+            
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="userCvCount">0</span>
+                        <span class="stat-label">CVs Criados</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="userDownloads">0</span>
+                        <span class="stat-label">Downloads</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="userPlan">Free</span>
+                        <span class="stat-label">Plano Atual</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <div class="cvs-list">
+                    <h3>Meus CVs</h3>
+                    <div class="cvs-grid" id="userCvs">
+                        <!-- CVs do usuário serão carregados aqui -->
+                    </div>
+                </div>
+                
+                <div class="api-keys">
+                    <h3>API Keys</h3>
+                    <button class="btn btn-outline" id="generateApiKeyBtn">
+                        <i class="fas fa-key"></i> Gerar Nova API Key
+                    </button>
+                    <div class="api-keys-list" id="apiKeysList">
+                        <!-- API Keys serão listadas aqui -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modals -->
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Entrar</h3>
+                <button class="modal-close" data-modal="loginModal">&times;</button>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cadastrar</h3>
+                <button class="modal-close" data-modal="registerModal">&times;</button>
+            </div>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Nome</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CV Creator Modal -->
+    <div class="modal modal-large" id="cvModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Criar Novo CV</h3>
+                <button class="modal-close" data-modal="cvModal">&times;</button>
+            </div>
+            <div class="cv-creator">
+                <div class="cv-steps">
+                    <div class="step active" data-step="1">
+                        <span class="step-number">1</span>
+                        <span class="step-title">Template</span>
+                    </div>
+                    <div class="step" data-step="2">
+                        <span class="step-number">2</span>
+                        <span class="step-title">Dados Pessoais</span>
+                    </div>
+                    <div class="step" data-step="3">
+                        <span class="step-number">3</span>
+                        <span class="step-title">Experiência</span>
+                    </div>
+                    <div class="step" data-step="4">
+                        <span class="step-number">4</span>
+                        <span class="step-title">Finalizar</span>
+                    </div>
+                </div>
+
+                <div class="cv-form">
+                    <!-- Step 1: Template Selection -->
+                    <div class="form-step active" id="step1">
+                        <h4>Escolha um Template</h4>
+                        <div class="template-selection" id="templateSelection">
+                            <!-- Templates serão carregados aqui -->
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Personal Info -->
+                    <div class="form-step" id="step2">
+                        <h4>Dados Pessoais</h4>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Nome Completo *</label>
+                                <input type="text" id="cvNome" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="email" id="cvEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Telefone</label>
+                                <input type="tel" id="cvTelefone">
+                            </div>
+                            <div class="form-group">
+                                <label>Endereço</label>
+                                <input type="text" id="cvEndereco">
+                            </div>
+                            <div class="form-group">
+                                <label>LinkedIn</label>
+                                <input type="url" id="cvLinkedin" placeholder="https://linkedin.com/in/seuperfil">
+                            </div>
+                            <div class="form-group">
+                                <label>GitHub</label>
+                                <input type="url" id="cvGithub" placeholder="https://github.com/seuusuario">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Resumo Profissional</label>
+                            <textarea id="cvResumo" rows="4" placeholder="Descreva brevemente sua experiência e objetivos profissionais..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Experience -->
+                    <div class="form-step" id="step3">
+                        <h4>Experiência e Qualificações</h4>
+                        
+                        <div class="section">
+                            <h5>Experiência Profissional</h5>
+                            <div id="experienciasContainer">
+                                <div class="experiencia-item">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Empresa</label>
+                                            <input type="text" class="exp-empresa">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Cargo</label>
+                                            <input type="text" class="exp-cargo">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Período</label>
+                                            <input type="text" class="exp-periodo" placeholder="2020 - 2024">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Descrição</label>
+                                        <textarea class="exp-descricao" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline" id="addExperienciaBtn">
+                                <i class="fas fa-plus"></i> Adicionar Experiência
+                            </button>
+                        </div>
+
+                        <div class="section">
+                            <h5>Educação</h5>
+                            <div id="educacaoContainer">
+                                <div class="educacao-item">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Instituição</label>
+                                            <input type="text" class="edu-instituicao">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Curso</label>
+                                            <input type="text" class="edu-curso">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Período</label>
+                                            <input type="text" class="edu-periodo" placeholder="2016 - 2020">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline" id="addEducacaoBtn">
+                                <i class="fas fa-plus"></i> Adicionar Educação
+                            </button>
+                        </div>
+
+                        <div class="section">
+                            <h5>Habilidades</h5>
+                            <div class="form-group">
+                                <input type="text" id="habilidadesInput" placeholder="Digite uma habilidade e pressione Enter">
+                                <div class="skills-tags" id="skillsTags"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Review -->
+                    <div class="form-step" id="step4">
+                        <h4>Revisar e Gerar CV</h4>
+                        <div class="cv-preview">
+                            <div class="preview-info">
+                                <h5>Resumo do seu CV:</h5>
+                                <div id="cvSummary"></div>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-large" id="generateCvBtn">
+                                <i class="fas fa-file-pdf"></i> Gerar CV em PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cv-navigation">
+                    <button type="button" class="btn btn-outline" id="prevStepBtn" style="display: none;">Anterior</button>
+                    <button type="button" class="btn btn-primary" id="nextStepBtn">Próximo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Gerando seu CV...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>CVGen</span>
+                    </div>
+                    <p>Gerador de currículos profissionais desenvolvido pela BlueVision Tech.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Produto</h4>
+                    <ul>
+                        <li><a href="#templates">Templates</a></li>
+                        <li><a href="#pricing">Preços</a></li>
+                        <li><a href="http://localhost:3000/api-docs" target="_blank">API</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Suporte</h4>
+                    <ul>
+                        <li><a href="mailto:contato@bluevisiontech.com">Contato</a></li>
+                        <li><a href="#help">Ajuda</a></li>
+                        <li><a href="#docs">Documentação</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 BlueVision Tech. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

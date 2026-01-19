@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:6.0
+    container_name: cvgen-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: cvgen-api
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - cvgen-network
+
+  # CVGen API Application
+  cvgen-api:
+    build: .
+    container_name: cvgen-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      MONGODB_URI: mongodb://admin:password123@mongodb:27017/cvgen-api?authSource=admin
+      JWT_SECRET: your-super-secret-jwt-key-change-in-production
+      JWT_REFRESH_SECRET: your-refresh-secret-key-change-in-production
+      JWT_EXPIRE: 24h
+      JWT_REFRESH_EXPIRE: 7d
+      API_BASE_URL: http://localhost:3000
+      PDF_STORAGE_PATH: ./storage/pdfs
+      RATE_LIMIT_WINDOW_MS: 900000
+      RATE_LIMIT_MAX_REQUESTS: 100
+      ADMIN_EMAIL: admin@bluevisiontech.com
+      ADMIN_PASSWORD: admin123456
+    volumes:
+      - pdf_storage:/usr/src/app/storage/pdfs
+    depends_on:
+      - mongodb
+    networks:
+      - cvgen-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Nginx Reverse Proxy (Optional)
+  nginx:
+    image: nginx:alpine
+    container_name: cvgen-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - cvgen-api
+    networks:
+      - cvgen-network
+
+volumes:
+  mongodb_data:
+    driver: local
+  pdf_storage:
+    driver: local
+
+networks:
+  cvgen-network:
+    driver: bridge
