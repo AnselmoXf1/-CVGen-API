@@ -346,7 +346,7 @@ pm2 start server.js --name cvgen-api
 
 ```javascript
 // Exemplo de integração
-const response = await fetch('https://api.bluevisiontech.com/cv', {
+const response = await fetch('https://bluevisiontech-cvgen-api.onrender.com/cv', {
   method: 'POST',
   headers: {
     'x-api-key': 'YOUR_MOZDJOB_API_KEY',
@@ -362,7 +362,7 @@ console.log('PDF URL:', result.data.pdfUrl);
 ## 📞 Suporte
 
 - **Email**: contato@bluevisiontech.com
-- **Website**: https://bluevisiontech.com
+- **Website**: https://bluevisiontech.vercel.app
 - **Documentação**: http://localhost:3000/api-docs
 
 ## 📄 Licença

@@ -11,7 +11,7 @@ const options = {
       contact: {
         name: 'BlueVision Tech',
         email: 'contato@bluevisiontech.com',
-        url: 'https://bluevisiontech.com'
+        url: 'https://bluevisiontech.vercel.app'
       },
       license: {
         name: 'MIT',

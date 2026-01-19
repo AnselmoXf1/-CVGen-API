@@ -34,7 +34,7 @@ app.use(helmet({
 // CORS configuration
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://mozdjob.com', 'https://bluevisiontech.com']
+    ? ['https://mozdjob.com', 'https://bluevisiontech.vercel.app']
     : true,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
