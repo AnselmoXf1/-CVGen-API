@@ -8,6 +8,10 @@ API SaaS para geração automática de currículos (CVs) em PDF com múltiplos t
 - **LGPD/GDPR compliant**: Dados não persistem
 - **Zero custos de storage**: Apenas processamento
 
+## 🌐 **DEMO EM PRODUÇÃO**
+**🚀 API em Produção**: https://bluevisiontech-cvgen-api.onrender.com
+**📚 Documentação Live**: https://bluevisiontech-cvgen-api.onrender.com/api-docs
+
 **Credenciais de Teste:**
 - Email: admin@bluevisiontech.com
 - Senha: password
@@ -68,12 +72,23 @@ CV Gerado → Download Imediato → Arquivo Deletado
 
 ## 🔧 Instalação e Execução
 
-### 🚀 **Início Rápido (Recomendado)**
+### 🌐 **Teste na Produção (Recomendado)**
+**API em Produção**: https://bluevisiontech-cvgen-api.onrender.com
+
+```bash
+# Teste direto na produção
+curl https://bluevisiontech-cvgen-api.onrender.com/health
+
+# Documentação interativa
+# Acesse: https://bluevisiontech-cvgen-api.onrender.com/api-docs
+```
+
+### 🚀 **Desenvolvimento Local**
 
 1. **Clone o repositório**
 ```bash
-git clone https://github.com/bluevisiontech/cvgen-api.git
-cd cvgen-api
+git clone https://github.com/AnselmoXf1/-CVGen-API.git
+cd -CVGen-API
 ```
 
 2. **Instale as dependências**
@@ -92,9 +107,9 @@ python -m http.server 8080
 ```
 
 4. **Acesse a aplicação**
-- **Frontend**: http://localhost:8080
-- **API**: http://localhost:3001
-- **Documentação**: http://localhost:3001/api-docs
+- **Frontend Local**: http://localhost:8080
+- **API Local**: http://localhost:3001
+- **Documentação Local**: http://localhost:3001/api-docs
 
 ### 🧪 **Teste o Sistema**
 ```bash
@@ -136,7 +151,12 @@ npm start
 
 ## 📚 Documentação da API
 
-Após iniciar o servidor, acesse:
+### 🌐 **Produção (Render)**
+- **API Base**: https://bluevisiontech-cvgen-api.onrender.com
+- **Swagger UI**: https://bluevisiontech-cvgen-api.onrender.com/api-docs
+- **Health Check**: https://bluevisiontech-cvgen-api.onrender.com/health
+
+### 🏠 **Desenvolvimento Local**
 - **Frontend**: http://localhost:8080
 - **API**: http://localhost:3001
 - **Swagger UI**: http://localhost:3001/api-docs
@@ -219,25 +239,18 @@ x-api-key: YOUR_API_KEY
 
 ## 💡 Exemplo de Uso
 
-### 🖥️ **Via Frontend (Recomendado)**
-1. Acesse: http://localhost:8080
-2. Login: admin@bluevisiontech.com / password
-3. Clique em "Criar CV"
-4. Preencha os dados e selecione template
-5. **Modal de download aparece automaticamente**
-6. **Download inicia em 3 segundos**
-7. **Arquivo é deletado após download**
+### 🌐 **Produção (Render) - Recomendado**
 
-### 🔧 **Via API Key**
+#### 🔧 **Via API Key**
 ```bash
 # 1. Login para obter token
-curl -X POST http://localhost:3001/auth/login \
+curl -X POST https://bluevisiontech-cvgen-api.onrender.com/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"admin@bluevisiontech.com","password":"password"}'
 
 # 2. Criar CV (retorna URL de download temporário)
-curl -X POST http://localhost:3001/cv \
-  -H "x-api-key: YOUR_API_KEY" \
+curl -X POST https://bluevisiontech-cvgen-api.onrender.com/cv \
+  -H "Authorization: Bearer SEU_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "templateId": "template_1",
@@ -262,6 +275,17 @@ curl -X POST http://localhost:3001/cv \
   }'
 ```
 
+### 🏠 **Desenvolvimento Local**
+
+#### 🖥️ **Via Frontend (Recomendado)**
+1. Acesse: http://localhost:8080
+2. Login: admin@bluevisiontech.com / password
+3. Clique em "Criar CV"
+4. Preencha os dados e selecione template
+5. **Modal de download aparece automaticamente**
+6. **Download inicia em 3 segundos**
+7. **Arquivo é deletado após download**
+
 ### 📥 **Resposta com Download Direto**
 ```json
 {
@@ -270,7 +294,7 @@ curl -X POST http://localhost:3001/cv \
   "data": {
     "cvId": "cv_123",
     "downloadUrl": "/download/temp/cv-joao-paulo-abc123.pdf",
-    "directDownload": "http://localhost:3001/download/temp/cv-joao-paulo-abc123.pdf",
+    "directDownload": "https://bluevisiontech-cvgen-api.onrender.com/download/temp/cv-joao-paulo-abc123.pdf",
     "expiresAt": "2024-01-19T21:30:00.000Z",
     "fileName": "cv-joao-paulo-abc123.pdf",
     "size": 45258,
@@ -282,7 +306,7 @@ curl -X POST http://localhost:3001/cv \
 ### 📱 **Download Imediato**
 ```bash
 # Baixar usando a URL retornada (válida por 1 hora)
-curl -O http://localhost:3001/download/temp/cv-joao-paulo-abc123.pdf
+curl -O https://bluevisiontech-cvgen-api.onrender.com/download/temp/cv-joao-paulo-abc123.pdf
 ```
 
 ## 🔒 Segurança

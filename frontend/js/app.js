@@ -1,12 +1,16 @@
 // CVGen Frontend Application
 class CVGenApp {
     constructor() {
-        this.apiUrl = 'http://localhost:3001';
+        // Usar configuração automática de ambiente
+        this.apiUrl = CONFIG ? CONFIG.apiUrl : 'https://bluevisiontech-cvgen-api.onrender.com';
         this.currentUser = null;
         this.currentStep = 1;
         this.selectedTemplate = null;
         this.cvData = {};
         this.skills = [];
+        
+        console.log(`🔧 CVGen App iniciado - Ambiente: ${CONFIG ? CONFIG.environment : 'production'}`);
+        console.log(`🌐 API URL: ${this.apiUrl}`);
         
         this.init();
     }
