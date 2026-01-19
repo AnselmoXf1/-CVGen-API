@@ -186,9 +186,13 @@ class CVGenApp {
                     <i class="fas fa-file-alt"></i>
                 </div>
                 <div class="template-info">
-                    <h3>${template.name}</h3>
+                    <h3>
+                        <i class="fas fa-palette"></i>
+                        ${template.name}
+                    </h3>
                     <p>${template.description}</p>
                     <span class="template-badge ${template.isPremium ? 'premium' : 'free'}">
+                        <i class="fas fa-${template.isPremium ? 'crown' : 'gift'}"></i>
                         ${template.isPremium ? 'Premium' : 'Gratuito'}
                     </span>
                 </div>
@@ -205,8 +209,12 @@ class CVGenApp {
                     <div class="template-preview-small">
                         <i class="fas fa-file-alt"></i>
                     </div>
-                    <h4>${template.name}</h4>
+                    <h4>
+                        <i class="fas fa-palette"></i>
+                        ${template.name}
+                    </h4>
                     <span class="template-badge ${template.isPremium ? 'premium' : 'free'}">
+                        <i class="fas fa-${template.isPremium ? 'crown' : 'gift'}"></i>
                         ${template.isPremium ? 'Premium' : 'Gratuito'}
                     </span>
                 </div>
@@ -344,12 +352,13 @@ class CVGenApp {
         
         if (!cvs || cvs.length === 0) {
             userCvs.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-file-alt"></i>
+                <div class="text-center" style="padding: 3rem;">
+                    <i class="fas fa-file-plus" style="font-size: 4rem; color: var(--gray-400); margin-bottom: 1rem;"></i>
                     <h3>Nenhum CV criado ainda</h3>
-                    <p>Crie seu primeiro CV profissional agora mesmo!</p>
+                    <p style="color: var(--gray-600); margin-bottom: 2rem;">Crie seu primeiro CV profissional agora mesmo!</p>
                     <button class="btn btn-primary" onclick="app.showModal('cvModal')">
-                        <i class="fas fa-plus"></i> Criar meu primeiro CV
+                        <i class="fas fa-plus-circle"></i>
+                        Criar Meu Primeiro CV
                     </button>
                 </div>
             `;
@@ -357,26 +366,50 @@ class CVGenApp {
         }
 
         const cvsHTML = cvs.map(cv => `
-            <div class="cv-item">
-                <div class="cv-info">
-                    <h4>${cv.nome}</h4>
-                    <p><i class="fas fa-envelope"></i> ${cv.email}</p>
-                    <p><i class="fas fa-calendar"></i> Criado em ${new Date(cv.createdAt).toLocaleDateString('pt-BR')}</p>
-                    <p>Status: <span class="status status-${cv.status}">${this.getStatusText(cv.status)}</span></p>
-                    ${cv.template ? `<p><i class="fas fa-palette"></i> Template: ${cv.template.name}</p>` : ''}
-                </div>
-                <div class="cv-actions">
-                    ${cv.status === 'completed' && cv.pdfUrl ? `
-                        <button class="btn btn-primary btn-sm" onclick="app.downloadCV('${cv.id}')" title="Baixar PDF">
-                            <i class="fas fa-download"></i>
+            <div class="card" style="margin-bottom: 1rem;">
+                <div class="flex justify-between items-center">
+                    <div class="cv-info">
+                        <h4 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <i class="fas fa-file-pdf" style="color: var(--danger);"></i>
+                            ${cv.nome}
+                        </h4>
+                        <p style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                            <i class="fas fa-envelope" style="color: var(--gray-500);"></i>
+                            ${cv.email}
+                        </p>
+                        <p style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                            <i class="fas fa-calendar" style="color: var(--gray-500);"></i>
+                            Criado em ${new Date(cv.createdAt).toLocaleDateString('pt-BR')}
+                        </p>
+                        <p style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                            Status: <span class="template-badge ${cv.status === 'completed' ? 'free' : 'premium'}" style="font-size: 0.75rem;">
+                                <i class="fas fa-${cv.status === 'completed' ? 'check-circle' : cv.status === 'processing' ? 'spinner fa-spin' : 'exclamation-circle'}"></i>
+                                ${this.getStatusText(cv.status)}
+                            </span>
+                        </p>
+                        ${cv.template ? `
+                            <p style="display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-palette" style="color: var(--gray-500);"></i>
+                                Template: ${cv.template.name}
+                            </p>
+                        ` : ''}
+                    </div>
+                    <div class="cv-actions" style="display: flex; gap: 0.5rem; flex-direction: column;">
+                        ${cv.status === 'completed' && cv.pdfUrl ? `
+                            <button class="btn btn-success btn-sm" onclick="app.downloadCV('${cv.id}')" title="Baixar PDF">
+                                <i class="fas fa-download"></i>
+                                Baixar
+                            </button>
+                        ` : ''}
+                        <button class="btn btn-secondary btn-sm" onclick="app.viewCV('${cv.id}')" title="Ver detalhes">
+                            <i class="fas fa-eye"></i>
+                            Detalhes
                         </button>
-                    ` : ''}
-                    <button class="btn btn-outline btn-sm" onclick="app.viewCV('${cv.id}')" title="Ver detalhes">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="btn btn-danger btn-sm" onclick="app.deleteCV('${cv.id}')" title="Deletar">
-                        <i class="fas fa-trash"></i>
-                    </button>
+                        <button class="btn btn-danger btn-sm" onclick="app.deleteCV('${cv.id}')" title="Deletar">
+                            <i class="fas fa-trash"></i>
+                            Deletar
+                        </button>
+                    </div>
                 </div>
             </div>
         `).join('');
@@ -911,7 +944,14 @@ class CVGenApp {
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
         
-        const icon = type === 'success' ? 'check' : type === 'error' ? 'times' : 'info';
+        const iconMap = {
+            success: 'check-circle',
+            error: 'exclamation-circle',
+            warning: 'exclamation-triangle',
+            info: 'info-circle'
+        };
+        
+        const icon = iconMap[type] || 'info-circle';
         toast.innerHTML = `
             <i class="fas fa-${icon}"></i>
             <span>${message}</span>
@@ -919,8 +959,11 @@ class CVGenApp {
         
         container.appendChild(toast);
         
+        // Auto remove after 5 seconds
         setTimeout(() => {
-            toast.remove();
+            if (toast.parentNode) {
+                toast.remove();
+            }
         }, 5000);
     }
 
